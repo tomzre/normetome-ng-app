@@ -43,6 +43,9 @@ import { QuestionFormComponent } from './question-form/question-form.component';
         path: 'questions/new', component: QuestionFormComponent
       },
       {
+        path: 'questions', component: QuestionsComponent
+      },
+      {
         path: '**', component: NotFoundComponent
       }
     ])
