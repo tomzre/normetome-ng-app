@@ -54,5 +54,4 @@ export class DataService {
 
         return Observable.throw(new AppError(error));
     }
-
 }
