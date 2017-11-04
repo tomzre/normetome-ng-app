@@ -3,10 +3,10 @@ import { DataService } from './data.service';
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class QuestionsService extends DataService{
+export class CategoriesService extends DataService{
 
   constructor(http: Http) { 
-    super('http://localhost:52276/api/questions', http) 
+    super('http://localhost:52276/api/categories', http) 
   }
   
 

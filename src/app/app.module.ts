@@ -4,8 +4,10 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import {ToastModule} from 'ng2-toastr/ng2-toastr';
+import { ErrorHandler, NgModule } from '@angular/core';
+import { ToastModule } from 'ng2-toastr/ng2-toastr';
+
+import { AppErrorHandler } from './common/app-error-handler';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -25,7 +27,7 @@ import { QuestionFormComponent } from './question-form/question-form.component';
     QuestionsComponent,
     NotFoundComponent,
     QuestionFormComponent
-    
+
   ],
   imports: [
     BrowserModule,
@@ -46,7 +48,10 @@ import { QuestionFormComponent } from './question-form/question-form.component';
     ])
   ],
   providers: [
-    QuestionsService
+    QuestionsService,
+    { provide: ErrorHandler, useClass: AppErrorHandler }
+
+
   ],
   bootstrap: [AppComponent]
 })
