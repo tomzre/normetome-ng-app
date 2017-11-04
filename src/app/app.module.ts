@@ -18,6 +18,8 @@ import { QuestionsComponent } from './questions/questions.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { QuestionFormComponent } from './question-form/question-form.component';
 import { HttpModule } from '@angular/http';
+import { CategoriesService } from './services/categories.service';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -35,6 +37,7 @@ import { HttpModule } from '@angular/http';
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
+    FormsModule,
     AlertModule.forRoot(),
     CarouselModule.forRoot(),
     CollapseModule.forRoot(),
@@ -56,6 +59,7 @@ import { HttpModule } from '@angular/http';
   ],
   providers: [
     QuestionsService,
+    CategoriesService,
     { provide: ErrorHandler, useClass: AppErrorHandler }
 
 

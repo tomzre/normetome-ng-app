@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class CategoriesService extends DataService{
 
   constructor(http: Http) { 
-    super('http://localhost:52276/api/categories', http) 
+    super('http://localhost:52276/api/category', http) 
   }
   
 

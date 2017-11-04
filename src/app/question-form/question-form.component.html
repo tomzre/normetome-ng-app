@@ -1,21 +1,24 @@
 <div class="col-md-4">
-<form >
-  <div class="form-group"><label for="description">
+    <h2>New Question</h2>
+    <form #f="ngForm">
+        <div class="form-group"><label for="description">
     Question Description
   </label>
-    <input name="description" type="text" class="form-control">
-  </div>
-  <div class="form-group">
-    <label for="isAnswerYes">
-        is answer yes?
-      <input type="checkbox" name="isAnswerYes" class="form-control">
+            <input ngModel name="description" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="isAnswerYes">
+        
+      <input ngModel type="checkbox" name="isAnswerYes" id="isAnswerYes"> is answer yes?
     </label>
-  </div>
-  <div class="form-group">
-    
-      <select name="categoryId" id=""><option value="" disabled>Choose category</option>
+        </div>
+        <div class="form-group">
+            <select ngModel class="form-control" name="categoryId" id="">
+        <option value="" disabled>Choose category</option>
+        <option *ngFor="let category of categories" [value]="category.id">{{ category.categoryName }}</option>
       </select>
-    </div>
-    <button class="btn btn-default" type="submit">Save</button>
-</form>
+        </div>
+        <p>{{f.value | json}}</p>
+        <button class="btn btn-default" type="submit">Save</button>
+    </form>
 </div>
