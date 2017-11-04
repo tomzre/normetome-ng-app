@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
-.content{
+
+@import "../node_modules/ng2-toastr/bundles/ng2-toastr.min.css";
+.content {
     padding-top: 60px;
 }
