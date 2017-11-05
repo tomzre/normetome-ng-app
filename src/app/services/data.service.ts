@@ -1,7 +1,7 @@
 import { BadRequestError } from './../common/bad-request-error';
 import { NotFoundError } from './../common/not-found-error';
 import { AppError } from './../common/app-error';
-import { Http } from '@angular/http';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
@@ -28,7 +28,11 @@ export class DataService {
     }
 
     create(resource) {
-        return this.http.post(this.url, JSON.stringify(resource))
+        
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({headers: headers});
+
+        return this.http.post(this.url, JSON.stringify(resource), options)
             .map(response => response.json())
             .catch(this.handleError);
     }

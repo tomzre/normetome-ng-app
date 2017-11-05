@@ -1,6 +1,6 @@
 <div class="col-md-4">
     <h2>New Question</h2>
-    <form #f="ngForm">
+    <form #f="ngForm" (ngSubmit)="createQuestion(f)">
         <div class="form-group"><label for="description">
     Question Description
   </label>

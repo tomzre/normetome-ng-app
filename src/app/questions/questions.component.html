@@ -1,3 +1,5 @@
 <ul class="list-group">
-    <li *ngFor="let question of questions" class="list-group-item">{{ question.description }}</li>
+    <li *ngFor="let question of questions" class="list-group-item">{{ question.description }}
+        <div class="pull-right"> <span (click)="remove(question)" class="glyphicon glyphicon-remove"></span></div>
+    </li>
 </ul>
