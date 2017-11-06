@@ -1,0 +1,20 @@
+<h1>Add new Category</h1>
+
+<form #f="ngForm" (ngSubmit)="onCreate(f)">
+    <div class="form-group">
+        <label for="categoryName">Category name</label>
+        <input ngModel type="text" name="categoryName" class="form-control">
+    </div>
+    <p>{{ f.value | json }}</p>
+    <button class="btn btn-default">Save</button>
+</form>
+
+<hr/>
+<ul class="list-group">
+    <li *ngFor="let category of categories" class="list-group-item">
+        {{category.id}} - {{category.categoryName}}
+        <div class="pull-right">
+            <span (click)="remove(category)" class="glyphicon glyphicon-remove"></span>
+        </div>
+    </li>
+</ul>

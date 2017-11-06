@@ -32,20 +32,22 @@ export class QuestionsComponent implements OnInit {
   remove(question) {
     let index = this.questions.indexOf(question);
 
-    this.questions.splice(index, 1);
-    this.service.delete(question.id)
-      .subscribe(
-      () => {
-        this.toastr.warning('Item of id: ' + index+ ', has been deleted!', "Warning!");
-      },
-      (error: AppError) => {
-        this.questions.splice(index, 0, question);
+    if (confirm("Are you sure to delete " + question.description)) {
+      this.questions.splice(index, 1);
+      this.service.delete(question.id)
+        .subscribe(
+        () => {
+          this.toastr.warning('Item of id: ' + index + ', has been deleted!', "Warning!");
+        },
+        (error: AppError) => {
+          this.questions.splice(index, 0, question);
 
-        if (error instanceof NotFoundError)
-          this.toastr.error("This question has been already deleted.", "Oops!");
-        else
-          throw error;
-      });
+          if (error instanceof NotFoundError)
+            this.toastr.error("This question has been already deleted.", "Oops!");
+          else
+            throw error;
+        });
+    }
   }
 
 }

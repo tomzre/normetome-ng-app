@@ -2,27 +2,62 @@
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <button dropdownToggle (click)="expandNavbar()" type="button" class="navbar-toggle collapsed dropdown-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-            <a class="navbar-brand" href="#">Tobenorme</a>
+            <a class="navbar-brand" routerLink="/">Tobenorme</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div class="collapse navbar-collapse" [ngClass]="{ 'in': isIn }" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li [routerLinkActive]="['active']"><a [routerLink]="['/questions/new']"> new question <span class="sr-only">(current)</span></a></li>
-                <li [routerLinkActive]="['active']"><a [routerLink]="['/about']">About</a></li>
-                <li [routerLinkActive]="['active']"><a [routerLink]="['/questions']">Questions</a></li>
-            </ul>
-            <form class="navbar-form navbar-right" role="search">
+                <!-- Dropdown questions -->
+                <li>
+                    <div class="btn-group" dropdown>
+                        <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+                      Manage questions <span class="caret"></span>
+                    </button>
+                        <ul *dropdownMenu class="nav dropdown-menu" role="menu">
+                            <li role="menuitem" routerLinkActive="active"><a routerLink="question/new" class="dropdown-item"> New question </a></li>
+                            <li role="menuitem" routerLinkActive="active"><a routerLink="questions" class="dropdown-item">Questions</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <!-- dropdown end -->
+                <!-- Dropdown categories -->
+                <li>
+                    <div class="btn-group" dropdown>
+                        <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+                          Manage categories <span class="caret"></span>
+                        </button>
+                        <ul *dropdownMenu class="nav dropdown-menu" role="menu">
+                            <li role="menuitem" routerLinkActive="active"><a routerLink="category/new" class="dropdown-item"> New category </a></li>
+                            <li role="menuitem" routerLinkActive="active"><a routerLink="categories" class="dropdown-item">Categories</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <!-- dropdown end -->
+                <!-- <form class="navbar-form navbar-right" role="search">
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search">
                 </div>
                 <button type="submit" class="btn btn-default">Submit</button>
-            </form>
+            </form> -->
+
+                <li>
+                    <div class="btn-group navbar-right">
+                        <button class="btn btn-primary btn-margin" *ngIf="!auth.isAuthenticated()" (click)="auth.login()">
+                            Log In
+                        </button>
+
+                        <button class="btn btn-primary btn-margin" *ngIf="auth.isAuthenticated()" (click)="auth.logout()">
+                            Log Out
+                        </button>
+                    </div>
+                </li>
+            </ul>
 
         </div>
         <!-- /.navbar-collapse -->

@@ -1,5 +1,6 @@
 import { QuestionsService } from './services/questions.service';
 import { AlertModule } from 'ngx-bootstrap';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { RouterModule } from '@angular/router';
@@ -17,10 +18,20 @@ import { CarouselHeaderComponent } from './carousel-header/carousel-header.compo
 import { QuestionsComponent } from './questions/questions.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { QuestionFormComponent } from './question-form/question-form.component';
-import { HttpModule } from '@angular/http';
+import { HttpModule, Http, RequestOptions } from '@angular/http';
 import { CategoriesService } from './services/categories.service';
 import { FormsModule } from '@angular/forms';
+import { CategoryFormComponent } from './category-form/category-form.component';
+import { CategoriesComponent } from './categories/categories.component';
+import { AuthService } from './auth/auth.service';
+import { CallbackComponent } from './callback/callback.component';
+import { AuthHttp, AuthConfig } from 'angular2-jwt';
 
+export function authHttpServiceFactory(http: Http, options: RequestOptions) {
+  return new AuthHttp(new AuthConfig({
+    tokenGetter: (() => localStorage.getItem('access_token'))
+  }), http, options);
+}
 
 @NgModule({
   declarations: [
@@ -30,7 +41,10 @@ import { FormsModule } from '@angular/forms';
     CarouselHeaderComponent,
     QuestionsComponent,
     NotFoundComponent,
-    QuestionFormComponent
+    QuestionFormComponent,
+    CategoryFormComponent,
+    CategoriesComponent,
+    CallbackComponent
 
   ],
   imports: [
@@ -39,6 +53,7 @@ import { FormsModule } from '@angular/forms';
     HttpModule,
     FormsModule,
     AlertModule.forRoot(),
+    BsDropdownModule.forRoot(),
     CarouselModule.forRoot(),
     CollapseModule.forRoot(),
     ToastModule.forRoot(),
@@ -47,10 +62,19 @@ import { FormsModule } from '@angular/forms';
         path: '', component: HomeComponent
       },
       {
-        path: 'questions/new', component: QuestionFormComponent
+        path: 'question/new', component: QuestionFormComponent
       },
       {
         path: 'questions', component: QuestionsComponent
+      },
+      {
+        path: 'category/new', component: CategoryFormComponent
+      },
+      {
+        path: 'categories', component: CategoriesComponent
+      },
+      { 
+        path: 'callback', component: CallbackComponent 
       },
       {
         path: '**', component: NotFoundComponent
@@ -60,7 +84,14 @@ import { FormsModule } from '@angular/forms';
   providers: [
     QuestionsService,
     CategoriesService,
-    { provide: ErrorHandler, useClass: AppErrorHandler }
+    AuthService,
+    { provide: ErrorHandler, useClass: AppErrorHandler },
+    AuthService,
+    {
+      provide: AuthHttp,
+      useFactory: authHttpServiceFactory,
+      deps: [Http, RequestOptions]
+    }
 
 
   ],

@@ -7,22 +7,25 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
+import { AuthHttp } from 'angular2-jwt';
 
 @Injectable()
 export class DataService {
 
-    constructor(private url: string, private http: Http) {
+    constructor(private url: string,
+                private http: Http,
+                private authHttp: AuthHttp) {
 
     }
 
     get(id) {
-        return this.http.get(this.url + '/' + id)
+        return this.authHttp.get(this.url + '/' + id)
             .map(response => response.json())
             .catch(this.handleError);
     }
 
     getAll() {
-        return this.http.get(this.url)
+        return this.authHttp.get(this.url)
             .map(response => response.json())
             .catch(this.handleError);
     }
@@ -32,21 +35,24 @@ export class DataService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({headers: headers});
 
-        return this.http.post(this.url, JSON.stringify(resource), options)
+        return this.authHttp.post(this.url, JSON.stringify(resource), options)
             .map(response => response.json())
             .catch(this.handleError);
     }
 
     update(resource) {
-        return this.http.put(this.url + '/' + resource.id, JSON.stringify(resource))
+        return this.authHttp.put(this.url + '/' + resource.id, JSON.stringify(resource))
             .map(response => response.json())
             .catch(this.handleError);
     }
 
     delete(id) {
-        return this.http.delete(this.url + '/' + id)
-            .map(response => response.json())
-            .catch(this.handleError);
+        return this.authHttp.delete(this.url + '/' + id)
+        .map(response => response.json())
+        .catch(this.handleError);
+        // return this.http.delete(this.url + '/' + id)
+        //     .map(response => response.json())
+        //     .catch(this.handleError);
     }
 
     private handleError(error: Response) {

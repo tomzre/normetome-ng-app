@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'navbar',
@@ -6,8 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  isIn: boolean;
+  constructor(public auth: AuthService) { }
 
-  constructor() { }
+  expandNavbar(){
+    this.isIn = !this.isIn;
+  }
 
   ngOnInit() {
   }
