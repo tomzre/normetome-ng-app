@@ -14,7 +14,7 @@ export class QuestionsComponent implements OnInit {
 
   constructor(
     private service: QuestionsService,
-    public toastr: ToastsManager,
+    private toastr: ToastsManager,
     private vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
   }
@@ -25,7 +25,7 @@ export class QuestionsComponent implements OnInit {
         this.questions = questions;
       },
       (error: AppError) => {
-        this.toastr.error('An error has occured :/', "Oops! something went wrong...")
+        this.toastr.error('An error has occured :/', "Oops! something went wrong...");
       });
   }
 

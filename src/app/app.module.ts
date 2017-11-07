@@ -26,6 +26,7 @@ import { CategoriesComponent } from './categories/categories.component';
 import { AuthService } from './auth/auth.service';
 import { CallbackComponent } from './callback/callback.component';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
+import { ProfileComponent } from './profile/profile.component';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({
@@ -44,7 +45,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     QuestionFormComponent,
     CategoryFormComponent,
     CategoriesComponent,
-    CallbackComponent
+    CallbackComponent,
+    ProfileComponent
 
   ],
   imports: [
@@ -75,6 +77,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
       },
       { 
         path: 'callback', component: CallbackComponent 
+      },
+      {
+        path: 'profile', component: ProfileComponent
       },
       {
         path: '**', component: NotFoundComponent

@@ -15,7 +15,6 @@ export class CategoryFormComponent implements OnInit {
   constructor(private service: CategoriesService,
     private toastr: ToastsManager,
     private vcr: ViewContainerRef,
-    
   ) {
     this.toastr.setRootViewContainerRef(vcr);
   }
@@ -24,20 +23,23 @@ export class CategoryFormComponent implements OnInit {
     this.service.getAll()
       .subscribe(categories => this.categories = categories,
         (error: AppError) => {
-          this.toastr.error('An error has occured', 'Oops!');
+          //this.toastr.error('An error has occured', 'Oops!');
+          console.log(error);
         });
   }
 
-  onCreate(resource) {
-    let category = resource.value;
+  onCreate(input: HTMLInputElement) {
+    let category = {categoryName: input.value}
     let command = {
-      category: category
+      category: {
+        categoryName: category.categoryName
+      }
     }
     this.categories.push(category);
     
     this.service.create(command)
       .subscribe(newCategory => {
-        
+        category['id'] = newCategory.Id;
         this.toastr.info('Category has been added');
       },
     (error: AppError) => {

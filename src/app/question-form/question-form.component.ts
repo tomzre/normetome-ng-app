@@ -15,7 +15,7 @@ export class QuestionFormComponent implements OnInit {
   constructor(
       private categoriesService: CategoriesService,
       private questionService: QuestionsService,
-      public toastr: ToastsManager,
+      private toastr: ToastsManager,
       private vcr: ViewContainerRef ) 
       {
         this.toastr.setRootViewContainerRef(vcr);
@@ -25,7 +25,7 @@ export class QuestionFormComponent implements OnInit {
       this.categoriesService.getAll()
         .subscribe(categories => this.categories = categories,
         (error: AppError) => {
-          this.toastr.error('An error has occured.', 'Oops! Something went wrong :/')
+          this.toastr.error('An error has occured.', 'Oops! Something went wrong :/');
         });
   }
 

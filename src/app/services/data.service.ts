@@ -13,8 +13,8 @@ import { AuthHttp } from 'angular2-jwt';
 export class DataService {
 
     constructor(private url: string,
-                private http: Http,
-                private authHttp: AuthHttp) {
+        private http: Http,
+        private authHttp: AuthHttp) {
 
     }
 
@@ -31,9 +31,9 @@ export class DataService {
     }
 
     create(resource) {
-        
+
         let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({headers: headers});
+        let options = new RequestOptions({ headers: headers });
 
         return this.authHttp.post(this.url, JSON.stringify(resource), options)
             .map(response => response.json())
@@ -48,11 +48,8 @@ export class DataService {
 
     delete(id) {
         return this.authHttp.delete(this.url + '/' + id)
-        .map(response => response.json())
-        .catch(this.handleError);
-        // return this.http.delete(this.url + '/' + id)
-        //     .map(response => response.json())
-        //     .catch(this.handleError);
+            .map(response => response.json())
+            .catch(this.handleError);
     }
 
     private handleError(error: Response) {

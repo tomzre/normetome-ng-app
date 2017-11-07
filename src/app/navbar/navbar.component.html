@@ -45,9 +45,12 @@
                 </div>
                 <button type="submit" class="btn btn-default">Submit</button>
             </form> -->
+                <li routerLinkActive="active" *ngIf="auth.isAuthenticated()">
+                    <a routerLink="profile">Profile</a>
+                </li>
 
-                <li>
-                    <div class="btn-group navbar-right">
+                <li class="navbar-right">
+                    <div class="btn-group">
                         <button class="btn btn-primary btn-margin" *ngIf="!auth.isAuthenticated()" (click)="auth.login()">
                             Log In
                         </button>

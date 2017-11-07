@@ -1,9 +1,9 @@
 <h1>Add new Category</h1>
 
-<form #f="ngForm" (ngSubmit)="onCreate(f)">
+<form #f="ngForm" (ngSubmit)="onCreate(categoryName)">
     <div class="form-group">
         <label for="categoryName">Category name</label>
-        <input ngModel type="text" name="categoryName" class="form-control">
+        <input required ngModel #categoryName type="text" name="categoryName" class="form-control">
     </div>
     <p>{{ f.value | json }}</p>
     <button class="btn btn-default">Save</button>
