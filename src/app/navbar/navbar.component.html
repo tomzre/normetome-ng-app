@@ -20,8 +20,8 @@
                       Manage questions <span class="caret"></span>
                     </button>
                         <ul *dropdownMenu class="nav dropdown-menu" role="menu">
-                            <li role="menuitem" routerLinkActive="active"><a routerLink="question/new" class="dropdown-item"> New question </a></li>
-                            <li role="menuitem" routerLinkActive="active"><a routerLink="questions" class="dropdown-item">Questions</a></li>
+                            <li role="menuitem" routerLinkActive="link-active"><a routerLink="question/new" class="dropdown-item"> New question </a></li>
+                            <li role="menuitem" routerLinkActive="link-active"><a routerLink="questions" class="dropdown-item">Questions</a></li>
                         </ul>
                     </div>
                 </li>
@@ -33,8 +33,8 @@
                           Manage categories <span class="caret"></span>
                         </button>
                         <ul *dropdownMenu class="nav dropdown-menu" role="menu">
-                            <li role="menuitem" routerLinkActive="active"><a routerLink="category/new" class="dropdown-item"> New category </a></li>
-                            <li role="menuitem" routerLinkActive="active"><a routerLink="categories" class="dropdown-item">Categories</a></li>
+                            <li role="menuitem" routerLinkActive="link-active"><a routerLink="category/new" class="dropdown-item"> New category </a></li>
+                            <li role="menuitem" routerLinkActive="link-active"><a routerLink="categories" class="dropdown-item">Categories</a></li>
                         </ul>
                     </div>
                 </li>
@@ -45,8 +45,11 @@
                 </div>
                 <button type="submit" class="btn btn-default">Submit</button>
             </form> -->
-                <li routerLinkActive="active" *ngIf="auth.isAuthenticated()">
+                <li routerLinkActive="link-active" *ngIf="auth.isAuthenticated()">
                     <a routerLink="profile">Profile</a>
+                </li>
+                <li routerLinkActive="link-active" *ngIf="auth.isInRole(['Admin'])">
+                    <a routerLink="admin">Admin</a>
                 </li>
 
                 <li class="navbar-right">
@@ -60,6 +63,7 @@
                         </button>
                     </div>
                 </li>
+
             </ul>
 
         </div>

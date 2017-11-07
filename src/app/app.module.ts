@@ -27,6 +27,8 @@ import { AuthService } from './auth/auth.service';
 import { CallbackComponent } from './callback/callback.component';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { ProfileComponent } from './profile/profile.component';
+import { AdminComponent } from './admin/admin.component';
+import { AuthGuardService } from './services/auth-guard.service';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({
@@ -46,7 +48,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     CategoryFormComponent,
     CategoriesComponent,
     CallbackComponent,
-    ProfileComponent
+    ProfileComponent,
+    AdminComponent
 
   ],
   imports: [
@@ -75,6 +78,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
       {
         path: 'categories', component: CategoriesComponent
       },
+      {
+        path: 'admin', component: AdminComponent, canActivate: [AuthGuardService], data: { requiredRoles: ['Admin'] }
+      },
       { 
         path: 'callback', component: CallbackComponent 
       },
@@ -90,6 +96,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     QuestionsService,
     CategoriesService,
     AuthService,
+    AuthGuardService,
     { provide: ErrorHandler, useClass: AppErrorHandler },
     AuthService,
     {

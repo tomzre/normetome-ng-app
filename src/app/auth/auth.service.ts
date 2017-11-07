@@ -7,7 +7,8 @@ import { JwtHelper } from 'angular2-jwt';
 
 @Injectable()
 export class AuthService {
-  roles: any;
+  userProfile: any;
+  private roles: string[] = [];
 
   auth0 = new auth0.WebAuth({
     clientID: 't6YUr3lhQRHMqZywahILa7h2mEDbT21s',
@@ -19,13 +20,17 @@ export class AuthService {
   });
 
   constructor(public router: Router) { }
-  userProfile: any;
+
 
   public login(): void {
     this.auth0.authorize();
+  }
 
-
-
+  public isInRole(roles: string[]): boolean {
+    if (!roles) return true;
+    console.log(roles);
+    return this.roles && roles.every(r => this.roles.indexOf(r) >= 0);
+    //return this.roles.indexOf(roleName) > -1;
   }
 
   public handleAuthentication(): void {
@@ -33,10 +38,8 @@ export class AuthService {
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
         this.setSession(authResult);
-        let jwtHelper = new JwtHelper();
-        let decodedToken = jwtHelper.decodeToken(authResult.idToken);
-        this.roles = decodedToken['https://tobenorme.com/roles'];
-        console.log(this.roles);
+        this.getRoles(authResult);
+        //console.log(this.roles);
         this.router.navigate(['/']);
       } else if (err) {
         this.router.navigate(['/']);
@@ -44,6 +47,12 @@ export class AuthService {
         alert(`Error: ${err.error}. Check the console for further details.`);
       }
     });
+  }
+
+  private getRoles(authResult){
+    let jwtHelper = new JwtHelper();
+    let decodedToken = jwtHelper.decodeToken(authResult.idToken);
+    this.roles = decodedToken['https://tobenorme.com/roles'];
   }
 
   private setSession(authResult): void {
@@ -59,6 +68,7 @@ export class AuthService {
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
+    this.roles = [];
     // Go back to the home route
     this.router.navigate(['/']);
   }
