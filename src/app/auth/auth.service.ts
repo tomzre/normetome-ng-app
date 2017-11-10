@@ -28,7 +28,6 @@ export class AuthService {
 
   public isInRole(roles: string[]): boolean {
     if (!roles) return true;
-    console.log(roles);
     return this.roles && roles.every(r => this.roles.indexOf(r) >= 0);
     //return this.roles.indexOf(roleName) > -1;
   }
@@ -66,7 +65,7 @@ export class AuthService {
   public logout(): void {
     // Remove tokens and expiry time from localStorage
     localStorage.removeItem('access_token');
-    localStorage.removeItem('id_token');
+    //localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
     this.roles = [];
     // Go back to the home route
@@ -92,7 +91,7 @@ export class AuthService {
         self.userProfile = profile;
       }
       cb(err, profile);
-      console.log(self.userProfile);
+      
     });
   }
 

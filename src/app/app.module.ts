@@ -67,13 +67,13 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
         path: '', component: HomeComponent
       },
       {
-        path: 'question/new', component: QuestionFormComponent
+        path: 'question/new', component: QuestionFormComponent, canActivate: [AuthGuardService], data: { requiredRoles: ['Admin'] }
       },
       {
         path: 'questions', component: QuestionsComponent
       },
       {
-        path: 'category/new', component: CategoryFormComponent
+        path: 'category/new', component: CategoryFormComponent 
       },
       {
         path: 'categories', component: CategoriesComponent
