@@ -50,7 +50,7 @@ export class AuthService {
 
   private getRoles(authResult){
     let jwtHelper = new JwtHelper();
-    let decodedToken = jwtHelper.decodeToken(authResult.idToken);
+    let decodedToken = jwtHelper.decodeToken(authResult.accessToken);
     this.roles = decodedToken['https://tobenorme.com/roles'];
   }
 
@@ -96,3 +96,4 @@ export class AuthService {
   }
 
 }
+
