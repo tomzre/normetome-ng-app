@@ -91,7 +91,6 @@ export class AuthService {
         self.userProfile = profile;
       }
       cb(err, profile);
-      
     });
   }
 
