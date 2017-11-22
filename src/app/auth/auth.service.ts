@@ -15,7 +15,7 @@ export class AuthService {
     domain: 'trenzintester.eu.auth0.com',
     responseType: 'token id_token',
     audience: 'https://api.tobenorme.com',
-    redirectUri: 'http://localhost:4200/callback',
+    redirectUri: 'http://trenzin.pl/callback',
     scope: 'openid email name delete:category'
   });
 
