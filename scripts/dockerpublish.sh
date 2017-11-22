@@ -1,4 +1,6 @@
 #!/bin/bash
+echo Executing after success scripts on branch $TRAVIS_BRANCH
+
 DOCKER_ENV=''
 DOCKER_TAG=''
 case "$TRAVIS_BRANCH" in 
