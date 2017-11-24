@@ -1,15 +1,19 @@
+sudo: required
 language: node_js
 
 node_js:
    - node # will use latest node
-
+services:
+   - docker
 before_script: # commands to run before the build step
+   - chmod -R a+x scripts
    - npm install -g --silent @angular/cli
 
 script: # the build step
    - ng build --prod
-
+after_success:
+  - ./scripts/dockerpublish.sh
 notifications:
   email: # only receive email when the build status changes (someone broke the build!) 
-    on_failure: change
-    on_success: change 
+    on_failure: always
+    on_success: never 
