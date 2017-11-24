@@ -29,6 +29,7 @@ import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { ProfileComponent } from './profile/profile.component';
 import { AdminComponent } from './admin/admin.component';
 import { AuthGuardService } from './services/auth-guard.service';
+import { ROUTES } from './app.routes';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({
@@ -62,35 +63,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     CarouselModule.forRoot(),
     CollapseModule.forRoot(),
     ToastModule.forRoot(),
-    RouterModule.forRoot([
-      {
-        path: '', component: HomeComponent
-      },
-      {
-        path: 'question/new', component: QuestionFormComponent, canActivate: [AuthGuardService], data: { requiredRoles: ['Admin'] }
-      },
-      {
-        path: 'questions', component: QuestionsComponent
-      },
-      {
-        path: 'category/new', component: CategoryFormComponent 
-      },
-      {
-        path: 'categories', component: CategoriesComponent
-      },
-      {
-        path: 'admin', component: AdminComponent, canActivate: [AuthGuardService], data: { requiredRoles: ['Admin'] }
-      },
-      { 
-        path: 'callback', component: CallbackComponent 
-      },
-      {
-        path: 'profile', component: ProfileComponent
-      },
-      {
-        path: '**', component: NotFoundComponent
-      }
-    ])
+    RouterModule.forRoot(ROUTES)
   ],
   providers: [
     QuestionsService,
@@ -104,8 +77,6 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
       useFactory: authHttpServiceFactory,
       deps: [Http, RequestOptions]
     }
-
-
   ],
   bootstrap: [AppComponent]
 })

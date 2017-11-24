@@ -15,6 +15,6 @@ case "$TRAVIS_BRANCH" in
 esac
 
 docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-docker build -f ./Dockerfile -t $DOCKER_USERNAME/tobenorme-ng-app:$DOCKER_TAG .
+docker build -t $DOCKER_USERNAME/tobenorme-ng-app .
 # docker tag $DOCKER_USERNAME/tobenorme:$DOCKER_TAG
 docker push $DOCKER_USERNAME/tobenorme-ng-app:$DOCEKR_TAG

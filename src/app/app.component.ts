@@ -11,6 +11,5 @@ export class AppComponent {
   title = 'app';
   constructor(public auth: AuthService){
     auth.handleAuthentication();
-    
   }
 }
