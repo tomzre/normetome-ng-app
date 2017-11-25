@@ -8,7 +8,7 @@ import { JwtHelper } from 'angular2-jwt';
 @Injectable()
 export class AuthService {
   userProfile: any;
-  private roles: string[];
+  private roles: string[] = [];
 
   auth0 = new auth0.WebAuth({
     clientID: 't6YUr3lhQRHMqZywahILa7h2mEDbT21s',
@@ -16,10 +16,12 @@ export class AuthService {
     responseType: 'token id_token',
     audience: 'https://api.tobenorme.com',
     redirectUri: 'http://localhost:4200/callback',
-    scope: 'openid email name delete:category'
+    scope: 'openid email name delete:category profile'
   });
 
-  constructor(public router: Router) {}
+  constructor(public router: Router) {
+    this.userProfile = JSON.parse(localStorage.getItem('profile'));
+  }
 
 
   public login(): void {
@@ -38,7 +40,6 @@ export class AuthService {
         window.location.hash = '';
         this.setSession(authResult);
         this.getRoles(authResult);
-        //console.log(this.roles);
         this.router.navigate(['/']);
       } else if (err) {
         this.router.navigate(['/']);
@@ -67,6 +68,7 @@ export class AuthService {
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
+    localStorage.removeItem('profile');
     this.roles = [];
     // Go back to the home route
     this.router.navigate(['/']);
@@ -84,10 +86,10 @@ export class AuthService {
     if (!accessToken) {
       throw new Error('Access token must exist to fetch profile');
     }
-
     const self = this;
     this.auth0.client.userInfo(accessToken, (err, profile) => {
       if (profile) {
+        localStorage.setItem('profile', JSON.stringify(profile));
         self.userProfile = profile;
       }
       cb(err, profile);
