@@ -4,8 +4,8 @@
         <div class="form-group"><label for="description">
     Question Description
   </label>
-            <input required ngModel name="description" type="text" #firstName="ngModel" class="form-control">
-            <div class="alert alert-danger" *ngIf="!firstName.valid">First Name is required</div>
+            <input required ngModel name="description" type="text" #questionName="ngModel" class="form-control">
+            <div class="alert alert-danger" *ngIf="questionName.touched && !questionName.valid">First Name is required</div>
         </div>
         <div class="form-group">
             <label for="isAnswerYes">
@@ -14,12 +14,13 @@
     </label>
         </div>
         <div class="form-group">
-            <select ngModel class="form-control" name="categoryId" id="">
+            <select required ngModel class="form-control" name="categoryId" #category="ngModel" id="">
         <option value="" disabled>Choose category</option>
         <option *ngFor="let category of categories" [value]="category.id">{{ category.categoryName }}</option>
       </select>
+            <div class="alert alert-danger" *ngIf="category.touched && !category.valid">Category is required</div>
         </div>
         <p>{{f.value | json}}</p>
-        <button class="btn btn-default" type="submit">Save</button>
+        <button class="btn btn-default" type="submit" [disabled]="!f.form.valid">Save</button>
     </form>
 </div>

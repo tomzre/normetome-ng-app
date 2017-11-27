@@ -35,14 +35,17 @@ export class QuestionFormComponent implements OnInit {
       isAnswerYes: request.value.isAnswerYes,
       categoryId: request.value.categoryId
     };
+    if(question.isAnswerYes == ""){
+      question.isAnswerYes = false;
+    }
     console.log(question);
     this.questionService.create(question)
       .subscribe(question => {this.question = question;
-        console.log(question);
-      },
+        },
       (error: AppError) =>{
         this.toastr.error('An error has occured during post method!', 'It does not look good :/');
       });
+      request.reset();
   }
 
 }

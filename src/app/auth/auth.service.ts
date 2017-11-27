@@ -44,7 +44,6 @@ export class AuthService {
         window.location.hash = '';
         this.setSession(authResult);
         this.getRoles(authResult);
-        console.log('handleAuth');
         this.router.navigate(['/']);
       } else if (err) {
         this.router.navigate(['/']);
@@ -64,9 +63,6 @@ export class AuthService {
       decodedToken = jwtHelper.decodeToken(authResult);
       this.roles = decodedToken['https://tobenorme.com/roles'];
     }
-     
-   
-    console.log('gettingRoles');
   }
 
   private setSession(authResult): void {

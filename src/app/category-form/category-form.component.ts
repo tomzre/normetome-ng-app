@@ -44,7 +44,8 @@ export class CategoryFormComponent implements OnInit {
       },
     (error: AppError) => {
       this.toastr.error('Something went wrong!', "Oops! :/");
-    })
+    });
+    input.value = "";
   }
 
   remove(category){
@@ -66,7 +67,5 @@ export class CategoryFormComponent implements OnInit {
         throw error;
       });
     }
-
   }
-
 }
