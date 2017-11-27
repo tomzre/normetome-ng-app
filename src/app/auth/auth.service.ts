@@ -9,6 +9,7 @@ import { JwtHelper } from 'angular2-jwt';
 export class AuthService {
   userProfile: any;
   private roles: string[] = [];
+  subject: any;
 
   auth0 = new auth0.WebAuth({
     clientID: 't6YUr3lhQRHMqZywahILa7h2mEDbT21s',
@@ -21,7 +22,11 @@ export class AuthService {
 
   constructor(public router: Router) {
     this.userProfile = JSON.parse(localStorage.getItem('profile'));
-  }
+    if(this.isAuthenticated){
+      let token = localStorage.getItem('id_token');
+      this.getRoles(token);
+    }
+}
 
 
   public login(): void {
@@ -31,7 +36,6 @@ export class AuthService {
   public isInRole(roles: string[]): boolean {
     if (!roles) return true;
     return this.roles && roles.every(r => this.roles.indexOf(r) >= 0);
-    //return this.roles.indexOf(roleName) > -1;
   }
 
   public handleAuthentication(): void {
@@ -40,6 +44,7 @@ export class AuthService {
         window.location.hash = '';
         this.setSession(authResult);
         this.getRoles(authResult);
+        console.log('handleAuth');
         this.router.navigate(['/']);
       } else if (err) {
         this.router.navigate(['/']);
@@ -51,8 +56,17 @@ export class AuthService {
 
   private getRoles(authResult){
     let jwtHelper = new JwtHelper();
-    let decodedToken = jwtHelper.decodeToken(authResult.idToken);
-    this.roles = decodedToken['https://tobenorme.com/roles'];
+    let decodedToken;
+    if (authResult && authResult.accessToken && authResult.idToken){
+        decodedToken = jwtHelper.decodeToken(authResult.idToken);
+        this.roles = decodedToken['https://tobenorme.com/roles'];
+    }else if(this.isAuthenticated && authResult){
+      decodedToken = jwtHelper.decodeToken(authResult);
+      this.roles = decodedToken['https://tobenorme.com/roles'];
+    }
+     
+   
+    console.log('gettingRoles');
   }
 
   private setSession(authResult): void {
