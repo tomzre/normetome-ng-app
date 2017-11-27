@@ -9,17 +9,24 @@ import { JwtHelper } from 'angular2-jwt';
 export class AuthService {
   userProfile: any;
   private roles: string[] = [];
+  subject: any;
 
   auth0 = new auth0.WebAuth({
     clientID: 't6YUr3lhQRHMqZywahILa7h2mEDbT21s',
     domain: 'trenzintester.eu.auth0.com',
     responseType: 'token id_token',
     audience: 'https://api.tobenorme.com',
-    redirectUri: 'http://trenzin.pl/callback',
-    scope: 'openid email name delete:category'
+    redirectUri: 'http://localhost:4200/callback',
+    scope: 'openid email name delete:category profile'
   });
 
-  constructor(public router: Router) { }
+  constructor(public router: Router) {
+    this.userProfile = JSON.parse(localStorage.getItem('profile'));
+    if(this.isAuthenticated){
+      let token = localStorage.getItem('id_token');
+      this.getRoles(token);
+    }
+}
 
 
   public login(): void {
@@ -29,7 +36,6 @@ export class AuthService {
   public isInRole(roles: string[]): boolean {
     if (!roles) return true;
     return this.roles && roles.every(r => this.roles.indexOf(r) >= 0);
-    //return this.roles.indexOf(roleName) > -1;
   }
 
   public handleAuthentication(): void {
@@ -38,7 +44,7 @@ export class AuthService {
         window.location.hash = '';
         this.setSession(authResult);
         this.getRoles(authResult);
-        //console.log(this.roles);
+        console.log('handleAuth');
         this.router.navigate(['/']);
       } else if (err) {
         this.router.navigate(['/']);
@@ -50,8 +56,17 @@ export class AuthService {
 
   private getRoles(authResult){
     let jwtHelper = new JwtHelper();
-    let decodedToken = jwtHelper.decodeToken(authResult.accessToken);
-    this.roles = decodedToken['https://tobenorme.com/roles'];
+    let decodedToken;
+    if (authResult && authResult.accessToken && authResult.idToken){
+        decodedToken = jwtHelper.decodeToken(authResult.idToken);
+        this.roles = decodedToken['https://tobenorme.com/roles'];
+    }else if(this.isAuthenticated && authResult){
+      decodedToken = jwtHelper.decodeToken(authResult);
+      this.roles = decodedToken['https://tobenorme.com/roles'];
+    }
+     
+   
+    console.log('gettingRoles');
   }
 
   private setSession(authResult): void {
@@ -65,8 +80,9 @@ export class AuthService {
   public logout(): void {
     // Remove tokens and expiry time from localStorage
     localStorage.removeItem('access_token');
-    //localStorage.removeItem('id_token');
+    localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
+    localStorage.removeItem('profile');
     this.roles = [];
     // Go back to the home route
     this.router.navigate(['/']);
@@ -75,7 +91,7 @@ export class AuthService {
   public isAuthenticated(): boolean {
     // Check whether the current time is past the
     // access token's expiry time
-    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+   const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     return new Date().getTime() < expiresAt;
   }
 
@@ -84,10 +100,10 @@ export class AuthService {
     if (!accessToken) {
       throw new Error('Access token must exist to fetch profile');
     }
-
     const self = this;
     this.auth0.client.userInfo(accessToken, (err, profile) => {
       if (profile) {
+        localStorage.setItem('profile', JSON.stringify(profile));
         self.userProfile = profile;
       }
       cb(err, profile);
