@@ -35,11 +35,12 @@ export class CategoryFormComponent implements OnInit {
         categoryName: category.categoryName
       }
     }
-    this.categories.push(category);
+    
     
     this.service.create(command)
       .subscribe(newCategory => {
         category['id'] = newCategory.Id;
+        this.categories.push(category);
         this.toastr.info('Category has been added');
       },
     (error: AppError) => {

@@ -3,9 +3,12 @@
 <form #f="ngForm" (ngSubmit)="onCreate(categoryName)">
     <div class="form-group">
         <label for="categoryName">Category name</label>
-        <input required pattern="[a-zA-Z ]*" ngModel #categoryName type="text" name="categoryName" #categoryName="ngModel" class="form-control">
-        <div class="alert alert-danger" *ngIf="categoryName.touched && !categoryName.valid">Category name is required.</div>
-        <div class="alert alert-danger" *ngIf="categoryName.touched && !categoryName.valid">Category name cannot be alphanumeric.</div>
+        <input required minlength="5" pattern="[a-zA-Z ]*" ngModel type="text" name="categoryName" #categoryName="ngModel" class="form-control" />
+        <div class="alert alert-danger" *ngIf="categoryName.touched && !categoryName.valid">
+            <div *ngIf="categoryName.errors.required">Category name is required.</div>
+            <div *ngIf="categoryName.errors.minlength">Category name should be at least 5 characters.</div>
+            <div *ngIf="categoryName.errors.pattern">Category cannot include numbers.</div>
+        </div>
     </div>
     <p>{{ f.value | json }}</p>
     <button class="btn btn-default" [disabled]="!f.valid">Save</button>
