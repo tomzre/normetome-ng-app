@@ -5,7 +5,7 @@
     Question Description
   </label>
             <input required ngModel name="description" type="text" #questionName="ngModel" class="form-control">
-            <div class="alert alert-danger" *ngIf="questionName.touched && !questionName.valid">First Name is required</div>
+            <div class="alert alert-danger" *ngIf="questionName.touched && !questionName.valid">Description is required</div>
         </div>
         <div class="form-group">
             <label for="isAnswerYes">
